@@ -184,3 +184,12 @@ I finally randomly shuffled the data set and put Y% of the data into a validatio
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
+[//]: # (Image References)
+
+[image1]: ./examples/placeholder.png "Model Visualization"
+[image2]: ./examples/placeholder.png "Grayscaling"
+[image3]: ./examples/placeholder_small.png "Recovery Image"
+[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image5]: ./examples/placeholder_small.png "Recovery Image"
+[image6]: ./examples/placeholder_small.png "Normal Image"
+[image7]: ./examples/placeholder_small.png "Flipped Image"
