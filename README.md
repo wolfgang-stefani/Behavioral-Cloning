@@ -3,9 +3,9 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 ## Overview
-This repository contains files for Behavioral Cloning of a human driver for training an autonomous vehicle to imitate his/her driving behaviour.
+This repository contains files for cloning a human driver's behavior and training an autonomous vehicle to imitate his/her driving behaviour.
 
-In this project, deep neural networks and convolutional neural networks are used to clone driving behavior. The model is trained, validated and tested using Keras. It will output a steering angle to an autonomous vehicle.
+Deep neural networks and convolutional neural networks are used to clone the driving behavior. With input from camera data, it will output steering angles for an autonomous vehicle. The model is trained, validated and tested using Keras.
 
 For data collection, a car can be steered around a track in a simulator. Collected image data and steering angles are used to train the neural network. Then this model is used to drive the car autonomously around the track - again in the simulator.
 
