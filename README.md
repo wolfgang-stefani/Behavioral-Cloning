@@ -5,14 +5,14 @@
 ## Overview
 This repository contains files for **cloning a human driver's behavior** and training an autonomous vehicle to imitate that behaviour.
 
-Deep neural networks and convolutional neural networks are used to clone the driving behavior. With input from camera data, the network will output steering angles for an autonomous vehicle. The model is built, trained, validated and tested using Keras.
+Deep Learning methods and a convolutional neural network are used to clone the driving behavior. With input from camera data, the network will output steering angles for an autonomous vehicle. The model is built, trained, validated and tested using Keras.
 
-For data collection, a car can be steered around a track in a simulator. Collected image data and steering angles are used to train the neural network. Then this model is used to drive the car autonomously around the track - again in the simulator. Here is the result:
+For data collection, a car can be steered around a track in a simulator. Collected image data and steering angles are used to train the neural network. It was trained and validated on different data sets to ensure that the model is not overfitting. Then this model is used to drive the car autonomously around the track - again in the simulator. Here is the result:
 
-[![IMAGE ALT TEXT HERE](./examples/Thumbnail.png)](https://youtu.be/xgAVLis9y-E)
+[![IMAGE ALT TEXT HERE](./examples/Thumbnail.png)](https://youtu.be/IfGLIvO4KnY)
 
 ## The Project
-The steps are the following:
+The steps were the following:
 * Use the simulator to drive the car around and collect data of good driving behavior
 * Design, train and validate a model that predicts a steering angle from image data
 * Use the model to drive the vehicle autonomously around in the simulator
@@ -83,34 +83,49 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. Model architecture
 
+The model was not built from scratch. The following, existing NVIDIA pipeline for autonomous driving served as a starting point.
+
 ![alt text][image9]
+
+Feeding the NVIDIA model with 160x320 sized images (RGB which means 3 channels) from the training set (recorded with the camera in the simulator) 'model.summary()' returns the following information about the shapes of the network layers.
+
 ![alt text][image10]
 
-The model consists of a convolution neural network with 5x5 and 3x3 filter sizes and depths between 3 and 64 (model.py lines 76-86) 
+Training the model with this architecture was not satisfactory. The vehicle was able to drive autonomously and very centrally through the course, but it shaked and fidgeted a lot. That would mean little comfort for the passengers.
 
-The data is normalized in the model using a Keras lambda layer (code line 76). 
+Many iterative steps later after modifying the model, adding new layers, testing, removing layers again, testing different parameters, fixing bugs, etc., the convolution neural network finally still consists of 5 convolutional layers and 4 dense layers (just like the NVIDIA example) but with serveral other layer types on top. Here is the summary:
+
+![alt text][image11]
+
+Data is being normalized in the model using a Keras lambda layer. 
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model was trained and validated on different data sets to ensure that the model is not overfitting. Dropout layers where added. Dropout consists in randomly setting a fraction rate of input units to 0 at each update during training time, which helps prevent overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. Dropout layers where added. Dropout consists in randomly setting a fraction rate of input units to 0 at each update during training time, which helps prevent overfitting. 
 
 #### 3. Model parameter tuning
 
-The model uses an adam optimizer, so the learning rate was not tuned manually (model.py line 90).
+The model uses an adam optimizer, so the learning rate was not tuned manually.
 
-#### 4. Appropriate training data
+#### 4. Creation of training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road (offcenter-to-center driving/recovery driving) and counterclockwise-driving which is realized by data augmentation (flipping images vertically) (model.py code lines 51-56). I flipped images and angles (multiplying by -1.0).
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering driving and driving counterclockwise. The latter is additionally realized by data augmentation (flipping images vertically and multiplying angles by -1.0 accordingly).
+
+To capture good driving behavior, I first recorded two laps on track one driving in the center.
+
+I then recorded the vehicle recovering from the sides (left or right) to the center so that the vehicle would learn how to get back to the center in case it strays from the middle while driving autonomously.
+
+Finally I recorded two laps driving in the center counterclockwise.
 
 #### 5. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving.
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to get back on track if this occurs while driving autonomously.
-
 I finally randomly shuffled the data set and put 20% of the data into a validation set. 
 
-I used this training data for training the model. The validation set helped determine if the model was over- or underfitting. The ideal number of epochs was 5.
+I used this training data for training the model. The validation set helped determine if the model was over- or underfitting. A good number of epochs turned out to be 5.
+
+#### 6. Loss visualization
+
+![alt text][image12]
 
 [//]: # (Image References)
 
@@ -122,5 +137,7 @@ I used this training data for training the model. The validation set helped dete
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 [image8]: ./examples/Thumbnail.png "Thumbnail"
-[image9]: ./examples/network_architecture.png "Architecture"
-[image10]: ./examples/cnn-architecture-624x890.png "CNN Architecture"
+[image9]: ./examples/NVIDIA_architecture.png "NVIDIA Architecture"
+[image10]: ./examples/model_architecture_old.png "NVIDIA Summary"
+[image11]: ./examples/model_architecture.png "Final architecture"
+[image12]: ./examples/loss_visualization.png "Loss visualization"
