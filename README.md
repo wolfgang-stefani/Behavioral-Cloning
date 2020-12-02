@@ -109,9 +109,15 @@ The model uses an adam optimizer, so the learning rate was not tuned manually.
 
 #### 4. Creation of training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering driving and driving counterclockwise. The latter is additionally realized by data augmentation (flipping images vertically and multiplying angles by -1.0 accordingly).
+In the simulator, you can weave all over the road and turn recording on and off to record recovery driving (I will explain this later). In a real car, however, that’s not really possible bacuase it is not legally. So in a real car, we’ll have multiple cameras on the vehicle, and we’ll map recovery paths from each camera. For example, if you train the model to associate a given image from the center camera with a left turn, then you could also train the model to associate the corresponding image from the left camera with a somewhat softer left turn. And you could train the model to associate the corresponding image from the right camera with an even harder left turn. In that way, you can simulate your vehicle being in different positions, somewhat further off the center line. For that purpose, the simulator captures images from three cameras mounted on the car: a left, center and right camera:
 
-To capture good driving behavior, I first recorded two laps on track one driving in the center.
+![alt text][image13]
+
+Training data was generated to keep the vehicle driving on the road. I used a combination of center lane driving, recovering driving and driving counterclockwise. The latter is additionally realized by data augmentation (flipping images vertically and multiplying angles by -1.0 accordingly). Here you can see an example:
+
+![alt text][image14]
+
+To capture good driving behavior, I first recorded two laps on track driving in the center.
 
 I then recorded the vehicle recovering from the sides (left or right) to the center so that the vehicle would learn how to get back to the center in case it strays from the middle while driving autonomously.
 
@@ -141,3 +147,5 @@ I used this training data for training the model. The validation set helped dete
 [image10]: ./examples/model_architecture_old.png "NVIDIA Summary"
 [image11]: ./examples/model_architecture.png "Final architecture"
 [image12]: ./examples/loss_visualization.png "Loss visualization"
+[image13]: ./examples/multiple_cameras.png "Multiple cameras"
+[image14]: ./examples/Data_augmentation.png "Data augmentation"
