@@ -1,7 +1,5 @@
 # Behavioral Cloning for Autonomous Vehicles
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-
 ## Overview
 This repository contains files for **cloning a human driver's behavior** and training an autonomous vehicle to imitate that behaviour.
 
